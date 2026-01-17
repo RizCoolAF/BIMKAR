@@ -5,6 +5,85 @@
                 <span>{{ session('success') }}</span>
             </div>
         </div>
+        <script>
+        setTimeout(() => {
+            document.querySelector('.toast')?.remove()
+        }, 3000)
+        </script>
+    @endif
+
+    <div class="container mx-auto p-10">
+        <div class="flex items-center mb-8">
+            <h1 class="text-3xl font-semibold">Manajemen Event</h1>
+            <a href="{{ route('admin.events.create') }}" class="btn btn-primary ml-auto">+ Tambah Event</a>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            @forelse ($events as $event)
+                <div class="card bg-white shadow-xl border border-gray-100 overflow-hidden hover:shadow-2xl transition-shadow">
+                    <figure class="h-48 w-full overflow-hidden bg-gray-200">
+                        @if($event->gambar)
+                            <img src="{{ asset('storage/' . $event->gambar) }}" alt="{{ $event->judul }}" class="w-full h-full object-cover" />
+                        @else
+                            <div class="flex items-center justify-center h-full text-gray-400">No Image Available</div>
+                        @endif
+                    </figure>
+
+                    <div class="card-body p-5">
+                        <div class="badge badge-secondary mb-2">{{ $event->kategori->nama }}</div>
+                        <h2 class="card-title text-xl font-bold truncate">{{ $event->judul }}</h2>
+                        
+                        <div class="text-sm text-gray-600 mt-2 space-y-1">
+                            <p class="flex items-center"><span class="mr-2">📅</span> {{ $event->tanggal_waktu->format('d M Y') }}</p>
+                            <p class="flex items-center"><span class="mr-2">📍</span> {{ $event->lokasi }}</p>
+                        </div>
+
+                        <div class="card-actions justify-end mt-4 pt-4 border-t border-gray-50">
+                            <a href="{{ route('admin.events.show', $event->id) }}" class="btn btn-xs btn-info">Detail</a>
+                            <a href="{{ route('admin.events.edit', $event->id) }}" class="btn btn-xs btn-primary">Edit</a>
+                            <button class="btn btn-xs bg-red-500 text-white border-none" onclick="openDeleteModal(this)" data-id="{{ $event->id }}">Hapus</button>
+                        </div>
+                    </div>
+                </div>
+            @empty
+                <div class="col-span-full bg-white p-10 rounded-box text-center shadow-sm">
+                    <p class="text-gray-500 italic">Tidak ada event tersedia.</p>
+                </div>
+            @endforelse
+        </div>
+    </div>
+
+    <dialog id="delete_modal" class="modal">
+        <form method="POST" class="modal-box">
+            @csrf
+            @method('DELETE')
+            <input type="hidden" name="event_id" id="delete_event_id">
+            <h3 class="text-lg font-bold mb-4">Hapus Event</h3>
+            <p>Apakah Anda yakin ingin menghapus event ini?</p>
+            <div class="modal-action">
+                <button class="btn btn-primary" type="submit">Hapus</button>
+                <button class="btn" onclick="delete_modal.close()" type="reset">Batal</button>
+            </div>
+        </form>
+    </dialog>
+
+    <script>
+        function openDeleteModal(button) {
+            const id = button.dataset.id;
+            const form = document.querySelector('#delete_modal form');
+            document.getElementById("delete_event_id").value = id;
+            form.action = `/admin/events/${id}`
+            delete_modal.showModal();
+        }
+    </script>
+</x-layouts.admin>
+{{-- <x-layouts.admin title="Manajemen Event">
+    @if (session('success'))
+        <div class="toast toast-bottom toast-center">
+            <div class="alert alert-success">
+                <span>{{ session('success') }}</span>
+            </div>
+        </div>
 
         <script>
         setTimeout(() => {
@@ -85,4 +164,4 @@
 </script>
 
 
-</x-layouts.admin>
+</x-layouts.admin> --}}

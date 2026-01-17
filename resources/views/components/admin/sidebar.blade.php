@@ -29,7 +29,7 @@
                 </a>
             </li>
 
-            <!-- Event item -->
+           <!-- Event item -->
             <li class="{{ request()->routeIs('admin.events.*') ? 'bg-gray-200 rounded-lg' : '' }}">
                 <a href="{{ route('admin.events.index') }}" class="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Event">
                     <!-- icon Event -->
