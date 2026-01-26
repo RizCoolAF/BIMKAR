@@ -253,15 +253,9 @@
           modal.classList.add('modal-open');
         }
       }
-  
-      // init
-      updateSummary();
-      }) ();
-    </script>
-    <script>
-        // code script lain
+          //Checkout confirm
         
-        document.getElementById('confirmCheckout').addEventListener('click', async () => {
+          document.getElementById('confirmCheckout').addEventListener('click', async () => {
               const btn = document.getElementById('confirmCheckout');
               btn.setAttribute('disabled', 'disabled');
               btn.textContent = 'Memproses...';
@@ -306,6 +300,8 @@
                 btn.textContent = 'Konfirmasi (placeholder)';
               }
             });
-            
-         </script>
+      // init
+      updateSummary();
+      })();
+    </script>
   </x-layouts.app>
