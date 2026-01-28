@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\LokasiController;
 use App\Http\Controllers\User\OrderController;
 use App\Http\Controllers\Admin\EventController as AdminEventController;
 use App\Http\Controllers\User\EventController as UserEventController;
@@ -51,7 +52,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/histories', [HistoriesController::class, 'index'])->name('histories.index');
         Route::get('/histories/{id}', [HistoriesController::class, 'show'])->name('histories.show');
 
-        
+        Route::resource('lokasi', LokasiController::class);
     });
     
 });
